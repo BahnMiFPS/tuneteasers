@@ -1,23 +1,4 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-
 <a name="readme-top"></a>
-
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -29,7 +10,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/BahnMiFPS/tune-teasers">
+  <a href="https://github.com/BahnMiFPS/tuneteasers">
     <img src="public/logo.svg" alt="Logo" width="80" height="80">
   </a>
 
@@ -40,11 +21,11 @@
     <br />
     <br />
     <br />
-    <a href="https://tune-teasers.vercel.app/">View Demo</a>
+    <a href="https://tuneteasers.vercel.app/">View Demo</a>
     ·
-    <a href="https://github.com/BahnMiFPS/tune-teasers/issues">Report Bug</a>
+    <a href="https://github.com/BahnMiFPS/tuneteasers/issues">Report Bug</a>
     ·
-    <a href="https://github.com/BahnMiFPS/tune-teasers/issues">Request Feature</a>
+    <a href="https://github.com/BahnMiFPS/tuneteasers/issues">Request Feature</a>
   </p>
 </div>
 
@@ -67,8 +48,6 @@
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -78,7 +57,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://tune-teasers.vercel.app/)
+[![Product Name Screen Shot][product-screenshot]](https://tuneteasers.vercel.app/)
 
 Tune Teasers is an exciting party game that brings together groups of friends for a thrilling and fast-paced challenge. In this game, players compete against each other to guess the name of a song associated with a music clip played within a customizable time frame.
 
@@ -90,16 +69,20 @@ The project aims to deliver a captivating experience, offering a wide range of m
 
 ### Built With
 
-![React.js](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Express.js](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
-![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socketdotio&logoColor=white)
-![Spotify API](https://img.shields.io/badge/Spotify_API-1ED760?style=for-the-badge&logo=spotify&logoColor=white)
-![Material-UI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=materialui&logoColor=white)
-![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white)
+##### Frontend:
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+[![React.js](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Material-UI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white)](https://material-ui.com/)
+[![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)](https://reactrouter.com/)
 
-<!-- GETTING STARTED -->
+##### Backend:
+
+[![Express.js](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white)](https://socket.io/)
+
+##### API Integration:
+
+[![Spotify API](https://img.shields.io/badge/Spotify_API-1ED760?style=for-the-badge&logo=spotify&logoColor=white)](https://developer.spotify.com/documentation/web-api/)
 
 ## Getting Started
 
@@ -108,20 +91,48 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+Before you can run the Tune Teasers application, make sure you have the following software installed on your machine:
 
-- npm
-  ```sh
-  npm install npm@latest -g
-  ```
+- Node.js: Install the latest version of Node.js by visiting the [official Node.js website](https://nodejs.org/) and following the installation instructions for your operating system.
+
+- Sign up for a free account at [Spotify for Developers](https://developer.spotify.com/)
+
+  1. Head to https://developer.spotify.com/dashboard and click "Create App"
+
+  2. Fill in your app informations. Just use http://localhost:3001 for Redirect_URI if you dont have one.
+  3. Click "Settings" to go to your app's settings and save your _Client ID_ and _Client Secret_ for later
 
 ### Installation
 
 1. Clone the repo
 
    ```sh
-   git clone https://github.com/BahnMiFPS/tune-teasers.git
+   git clone https://github.com/BahnMiFPS/tuneteasers.git
+   ```
 
+## Client
+
+1. Install NPM packages
+   ```sh
+   npm install
+   ```
+2. Make an `.env` file using this template below
+   ```js
+   REACT_APP_DEPLOYMENT_URL = ""
+   REACT_APP_LOCAL_URL = "http://localhost:3001"
+   NODE_ENV = ""
+   ```
+3. Run the server on your local:
+   ```sh
+   npm start
+   ```
+
+## Server
+
+1. Cd into the server folder
+
+   ```sh
+   cd server/
    ```
 
 2. Install NPM packages
@@ -130,17 +141,17 @@ This is an example of how to list things you need to use the software and how to
    ```
 3. Make an `.env` file using this template below
    ```js
-   SERVER_URL = "https://abc.com"
-   LOCAL_URL = "http://localhost:3001"
-   NODE_ENV = "development" // or production to use SERVER_URL
+   SPOTIFY_ID = "YOUR SPOTIFY CLIENT ID"
+   SPOTIFY_SECRET = "YOUR SPOTIFY CLIENT SECRET"
+   NODE_ENV = ""
    ```
 4. Run the server on your local:
-   ```sh
-   npm start
-   ```
-5. Continue to server's installation
-   <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+   ```sh
+   npm run dev
+   ```
+
+5. Enjoy Tune Teasers with your friends or you can use another browser (or the private mode of your browser) to create another peer
 <!-- USAGE EXAMPLES -->
 
 ## Usage
@@ -172,32 +183,7 @@ As a user, I can:
   - [ ] Explore running socket.io on multiple Node instances to improve performance and handle a higher number of concurrent connections.
   - [ ] Replace the default in-memory adapter with a Redis adapter or another compatible adapter to enable better scalability and handling of large amounts of data.
 
-Please refer to the [open issues](https://github.com/BahnMiFPS/tune-teasers/issues) for a complete list of proposed features, bug fixes, and known issues.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTRIBUTING -->
-
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- LICENSE -->
-
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Please refer to the [open issues](https://github.com/BahnMiFPS/tuneteasers/issues) for a complete list of proposed features, bug fixes, and known issues.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -207,7 +193,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Quang Vu Luong - [@LinkedIn](https://linkedin.com/in/quangvu-dev) - luongquangvu97@gmail.com
 
-Project Link: [https://github.com/BahnMiFPS/tune-teasers](https://github.com/BahnMiFPS/tune-teasers)
+Project Link: [https://github.com/BahnMiFPS/tuneteasers](https://github.com/BahnMiFPS/tuneteasers)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -215,7 +201,7 @@ Project Link: [https://github.com/BahnMiFPS/tune-teasers](https://github.com/Bah
 
 ## Acknowledgments
 
-[**CoderSchool Tech Tank**](https://www.linkedin.com/feed/update/urn:li:activity:7072542829855576064/) hosted by _CoderSchool x Grab_
+[CoderSchool's Tech Tank Competition](https://www.linkedin.com/feed/update/urn:li:activity:7072542829855576064/) hosted by _CoderSchool x Grab_
 
 - [Mr. Tuan Anh Hoang (Luke)](https://www.linkedin.com/in/lukehoang195/)
 - My CoderSchool Bootcamp Mentor, Mr. Tam Vu
@@ -226,16 +212,16 @@ Project Link: [https://github.com/BahnMiFPS/tune-teasers](https://github.com/Bah
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/BahnMiFPS/tune-teasers.svg?style=for-the-badge
-[contributors-url]: https://github.com/BahnMiFPS/tune-teasers/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/BahnMiFPS/tune-teasers.svg?style=for-the-badge
-[forks-url]: https://github.com/BahnMiFPS/tune-teasers/network/members
-[stars-shield]: https://img.shields.io/github/stars/BahnMiFPS/tune-teasers.svg?style=for-the-badge
-[stars-url]: https://github.com/BahnMiFPS/tune-teasers/stargazers
-[issues-shield]: https://img.shields.io/github/issues/BahnMiFPS/tune-teasers.svg?style=for-the-badge
-[issues-url]: https://github.com/BahnMiFPS/tune-teasers/issues
-[license-shield]: https://img.shields.io/github/license/BahnMiFPS/tune-teasers.svg?style=for-the-badge
-[license-url]: https://github.com/BahnMiFPS/tune-teasers/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/BahnMiFPS/tuneteasers.svg?style=for-the-badge
+[contributors-url]: https://github.com/BahnMiFPS/tuneteasers/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/BahnMiFPS/tuneteasers.svg?style=for-the-badge
+[forks-url]: https://github.com/BahnMiFPS/tuneteasers/network/members
+[stars-shield]: https://img.shields.io/github/stars/BahnMiFPS/tuneteasers.svg?style=for-the-badge
+[stars-url]: https://github.com/BahnMiFPS/tuneteasers/stargazers
+[issues-shield]: https://img.shields.io/github/issues/BahnMiFPS/tuneteasers.svg?style=for-the-badge
+[issues-url]: https://github.com/BahnMiFPS/tuneteasers/issues
+[license-shield]: https://img.shields.io/github/license/BahnMiFPS/tuneteasers.svg?style=for-the-badge
+[license-url]: https://github.com/BahnMiFPS/tuneteasers/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/quangvu-dev
 [product-screenshot]: https://i.imgur.com/wKbqwWZ.png
@@ -255,4 +241,3 @@ Project Link: [https://github.com/BahnMiFPS/tune-teasers](https://github.com/Bah
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com
-# tuneteasers

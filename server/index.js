@@ -7,9 +7,6 @@ const { getPlayListByCountry } = require("./utils/fetchPlaylist")
 const { getAccessToken } = require("./utils/spotify")
 const app = express()
 const { faker } = require("@faker-js/faker")
-const crypto = require("crypto")
-const randomId = () => crypto.randomBytes(8).toString("hex")
-const { InMemorySessionStore } = require("./sessionStore")
 
 app.use(cors())
 
@@ -61,30 +58,6 @@ app.get("/api/playlists", async (req, res) => {
 })
 
 const rooms = new Map() // Map to store rooms and players
-
-const sessionStore = new InMemorySessionStore()
-io.use((socket, next) => {
-  const sessionID = socket.handshake.auth.sessionID
-  if (sessionID) {
-    // find existing session
-    const session = sessionStore.findSession(sessionID)
-    if (session) {
-      socket.sessionID = sessionID
-      socket.userID = session.userID
-      socket.username = session.username
-      return next()
-    }
-  }
-  const username = socket.handshake.auth.username
-  if (!username) {
-    return next(new Error("invalid username"))
-  }
-  // create new session
-  socket.sessionID = randomId()
-  socket.userID = randomId()
-  socket.username = username
-  next()
-})
 
 io.on("connection", (socket) => {
   function findRoomIdBySocketId(socketId) {
