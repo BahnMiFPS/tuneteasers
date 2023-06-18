@@ -1,0 +1,64 @@
+config:
+  # target: "http://localhost:3001"
+  target: "https://tune-teaser-server.onrender.com"
+  phases:
+    - duration: 60
+      arrivalRate: 10
+      rampTo: 10
+  engines:
+    socketio: {}
+  processor: "./test.js" # Path to the JavaScript file containing your custom functions
+
+scenarios:
+  - name: "Create, Join and Play Game"
+    engine: "socketio"
+    flow:
+      - function: "generateRoomAndUser" # Call the custom function to generate unique data
+      - think: 5
+      - emit:
+          channel: "create_room"
+          data: "{{ createRoomData }}"
+      - think: 2
+      # - function: "joinRoom" # Call the custom function to generate join room data
+      # - emit:
+      #     channel: "join_room"
+      #     data: "{{ joinRoomData }}"
+      # - think: 10
+      - emit:
+          channel: "pick_music"
+          data:
+            roomId: "{{createRoomData.roomId}}"
+            gameMode: "Slow"
+            songNumbers: 5
+      - think: 2
+      - emit:
+          channel: "picked_music_starting_game"
+          data:
+            roomId: "{{createRoomData.roomId}}"
+            playlistId: "37i9dQZF1DWXti3N4Wp5xy"
+      - think: 2
+      - emit:
+          channel: "start_game"
+          data:
+            roomId: "{{createRoomData.roomId}}"
+      - think: 2
+      - emit:
+          channel: "room_game_init"
+          data:
+            roomId: "{{createRoomData.roomId}}"
+      - think: 2
+      - emit:
+          channel: "next_question"
+          data:
+            roomId: "{{createRoomData.roomId}}"
+      - think: 10
+      # - emit:
+      #     channel: "chosen_answer"
+      #     data:
+      #       answerIndex: 1
+      #       roomId: "{{createRoomData.roomId}}"
+      # - think: 5
+      - emit:
+          channel: "leave_room"
+          data:
+            roomId: "{{createRoomData.roomId}}"

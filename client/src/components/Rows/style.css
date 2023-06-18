@@ -1,0 +1,19 @@
+.row-title {
+  color: white;
+  letter-spacing: 8px;
+}
+
+.mySwiper {
+  margin-bottom: 20px;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

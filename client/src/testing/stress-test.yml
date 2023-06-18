@@ -1,0 +1,99 @@
+config:
+  target: "http://localhost:3001" # Replace with your Socket.IO server URL
+  phases:
+    - duration: 300 # Total duration of the test in seconds
+      arrivalRate: 10 # Number of virtual users to simulate per second
+
+scenarios:
+  - name: Load test scenario
+    flow:
+      - think: 1
+
+      # Create and join rooms
+      - emit:
+          channel: "create_room"
+          data:
+            name: "TestRoom{{__instance}}"
+            roomId: { { __instance } }
+
+      - think: 2
+
+      - emit:
+          channel: "join_room"
+          data:
+            name: "TestPlayer{{__instance}}"
+            roomId: { { __instance } }
+
+      - think: 2
+
+      # Send messages
+      - emit:
+          channel: "send_message"
+          data:
+            roomId: { { __instance } }
+            message: "Hello, this is a test message."
+
+      - think: 2
+
+      # Start the game
+      - emit:
+          channel: "start_game"
+          data:
+            roomId: { { __instance } }
+
+      - think: 2
+
+      # Initialize the game
+      - emit:
+          channel: "room_game_init"
+          data: { { __instance } }
+
+      - think: 2
+
+      # Pick music and start game
+      - emit:
+          channel: "pick_music"
+          data:
+            roomId: { { __instance } }
+            gameMode: "Normal"
+            songNumbers: 5
+
+      - think: 2
+
+      - emit:
+          channel: "picked_music_starting_game"
+          data:
+            roomId: { { __instance } }
+            playlistId: 37i9dQZF1DWXti3N4Wp5xy
+
+      - think: 10
+
+      - emit:
+          channel: "start_game"
+          data:
+            roomId: { { __instance } }
+
+      - think: 2
+
+      # Answer questions and go to the next question
+      - emit:
+          channel: "chosen_answer"
+          data:
+            answerIndex: 1
+            roomId: { { __instance } }
+
+      - think: 2
+
+      - emit:
+          channel: "next_question"
+          data: { { __instance } }
+
+      - think: 2
+
+      # Leave the room
+      - emit:
+          channel: "leave_room"
+          data:
+            roomId: { { __instance } }
+
+      - think: 2
