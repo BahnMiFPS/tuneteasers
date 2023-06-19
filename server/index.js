@@ -1,6 +1,7 @@
 const express = require("express")
 const http = require("http")
 const { Server } = require("socket.io")
+require("dotenv").config()
 const cors = require("cors")
 const { getQuestion, generateRoomQuestions } = require("./utils/getQuestion")
 const {
