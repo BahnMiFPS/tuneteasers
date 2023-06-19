@@ -2,32 +2,15 @@ const SERVER_URL =
   process.env.NODE_ENV === "production"
     ? process.env.REACT_APP_DEPLOYMENT_URL
     : process.env.REACT_APP_LOCAL_URL
-const genresSelected = [
-  "pop",
-  "hip-hop",
-  "r-n-b",
-  "indie",
-  "k-pop",
-  "rock",
-  "electronic",
-  "dance",
-  "latin",
-  "reggae",
-  "alternative",
-  "country",
-  "jazz",
-  "blues",
-  "soul",
-  "funk",
-  "edm",
-  "classical",
-  "folk",
-  "metal",
+
+const allowedCountries = [
+  { name: "Việt Nam", code: "VN", locale: "vi_VN" },
+  { name: "United States", code: "US", locale: "en_US" },
+  { name: "Korea", code: "KR", locale: "ko_KR" },
+  { name: "Japan", code: "JP", locale: "ja_JP" },
+  { name: "United Kingdom", code: "GB", locale: "en_GB" },
+  { name: "Hong Kong", code: "HK", locale: "zh_HK" },
+  { name: "Australia", code: "AU", locale: "en_AU" },
 ]
 
-const genresWithIndexes = genresSelected.map((genre, index) => ({
-  index,
-  name: genre,
-}))
-
-export { genresWithIndexes, SERVER_URL }
+export { SERVER_URL, allowedCountries }

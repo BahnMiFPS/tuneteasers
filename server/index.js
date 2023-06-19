@@ -45,10 +45,14 @@ app.get("/", (req, res) => {
 })
 
 app.get("/api/categories", async (req, res) => {
-  const { country } = req.query
+  const { country, locale } = req.query
   try {
-    const categories = await getCategoriesByCountry(country, accessToken)
-    console.log("🚀 ~ file: index.js:51 ~ app.get ~ categories:", categories)
+    const categories = await getCategoriesByCountry(
+      country,
+      locale,
+      accessToken
+    )
+
     res.json({ data: categories })
   } catch (error) {
     console.error("Error fetching categories:", error)
@@ -60,14 +64,14 @@ app.get("/api/playlists", async (req, res) => {
   const { id, country } = req.query
   try {
     const playlists = await getPlayListByCategories(id, country, accessToken)
-    console.log(playlists.playlists.items)
-    const playlistData = playlists.playlists.items.map((playlist) => ({
-      id: playlist.id,
-      name: playlist.name,
-      description: playlist.description,
-      image: playlist.images[0].url,
-    }))
-
+    const playlistData = playlists.playlists.items
+      .filter((playlist) => playlist && playlist.id != null)
+      .map((playlist) => ({
+        id: playlist.id,
+        name: playlist.name,
+        description: playlist.description,
+        image: playlist.images[0].url,
+      }))
     // .filter((playlist) => playlist?.owner?.display_name === "Spotify")
     res.json({ data: playlistData })
   } catch (error) {

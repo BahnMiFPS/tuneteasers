@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import { Grid, Box, CircularProgress } from "@mui/material"
+import {
+  Grid,
+  Box,
+  CircularProgress,
+  Typography,
+  Stack,
+  Snackbar,
+  Alert,
+} from "@mui/material"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Pagination, Grid as SwiperGrid } from "swiper"
 import "swiper/css"
@@ -11,10 +19,18 @@ import "swiper/css/grid"
 import PlaylistCard from "./PlaylistCard"
 import { SERVER_URL } from "../../api/requests"
 
-function PlaylistsRow({ country, currentGenre, handleCardClick, chosenCard }) {
+function PlaylistsRow({
+  country,
+  currentGenre,
+  handleCardClick,
+  chosenCard,
+  locale,
+}) {
   const [playlists, setPlaylists] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [openSnackbar, setOpenSnackbar] = useState(false)
 
+  const [error, setError] = useState(null)
   const url = `${SERVER_URL}/api/playlists?id=${currentGenre}&country=${country}`
   useEffect(() => {
     async function getTrendingPlaylists() {
@@ -22,9 +38,12 @@ function PlaylistsRow({ country, currentGenre, handleCardClick, chosenCard }) {
         const response = await axios.get(url)
         setPlaylists(response.data.data)
         setIsLoading(false)
+        setError(null)
       } catch (error) {
         console.error(error)
         setIsLoading(false)
+        setOpenSnackbar(true)
+        setError("Failed to fetch playlists.")
       }
     }
     getTrendingPlaylists()
@@ -77,6 +96,24 @@ function PlaylistsRow({ country, currentGenre, handleCardClick, chosenCard }) {
           </SwiperSlide>
         ))}
       </Swiper>
+      {error ? (
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={3000}
+          onClose={() => setOpenSnackbar(false)}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <Alert
+            onClose={() => setOpenSnackbar(false)}
+            severity="error"
+            sx={{ width: "100%" }}
+          >
+            {error}
+          </Alert>
+        </Snackbar>
+      ) : (
+        ""
+      )}
     </Grid>
   )
 }

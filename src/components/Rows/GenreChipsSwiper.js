@@ -16,10 +16,11 @@ function GenreChipsSwiper({
   currentGenre,
   setGenreList,
   country,
+  locale,
 }) {
   const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
-    const getCategoriesURL = `${SERVER_URL}/api/categories?country=${country}`
+    const getCategoriesURL = `${SERVER_URL}/api/categories?country=${country}&locale=${locale}`
 
     const getCategoriesByCountry = async () => {
       try {
@@ -50,30 +51,33 @@ function GenreChipsSwiper({
       modules={[Pagination, Navigation, SwiperGrid]}
       className="mySwiper"
     >
-      {genreList.items?.map((genre, index) => (
-        <SwiperSlide style={{ background: "none" }} key={index}>
-          {isLoading ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignSelf: "flex-start",
-              }}
-            >
-              <CircularProgress />
-            </Box>
-          ) : (
-            <Chip
-              label={genre.name}
-              onClick={() => {
-                setCurrentGenre(genre.id)
-              }}
-              color={currentGenre === genre.id ? "info" : "secondary"}
-              key={index}
-            />
-          )}
-        </SwiperSlide>
-      ))}
+      {genreList.items
+        ?.filter((genre) => genre.id !== null)
+        .map((genre, index) => (
+          <SwiperSlide style={{ background: "none" }} key={index}>
+            {isLoading ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignSelf: "flex-start",
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            ) : (
+              <Chip
+                label={genre.name}
+                onClick={() => {
+                  setCurrentGenre(genre.id)
+                  console.log(genre.id)
+                }}
+                color={currentGenre === genre.id ? "info" : "secondary"}
+                key={index}
+              />
+            )}
+          </SwiperSlide>
+        ))}
     </Swiper>
   )
 }

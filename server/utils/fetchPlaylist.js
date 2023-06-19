@@ -29,19 +29,7 @@ async function getPlaylistTracks(playlist_id) {
   }
 }
 
-async function getCategoriesByCountry(country, token) {
-  let locale
-  switch (country) {
-    case "US":
-      locale = "en_US"
-      break
-    case "KR":
-      locale = "ko_KR"
-      break
-    default:
-      locale = "vi_VN"
-      break
-  }
+async function getCategoriesByCountry(country, locale, token) {
   const url = `https://api.spotify.com/v1/browse/categories?country=${country}&locale=${locale}&limit=50`
   const headers = { Authorization: `Bearer ${token}` }
 
@@ -54,14 +42,11 @@ async function getCategoriesByCountry(country, token) {
   }
 }
 async function getPlayListByCategories(id, country, token) {
-  console.log(id)
-  // https://api.spotify.com/v1/browse/categories/toplists/playlists?country=VN
-  const url = `https://api.spotify.com/v1/browse/categories/${id}/playlists?country=${country}`
-  const headers = { Authorization: `Bearer ${token}` }
-
   try {
+    const url = `https://api.spotify.com/v1/browse/categories/${id}/playlists?country=${country}&limit=50`
+    const headers = { Authorization: `Bearer ${token}` }
+
     const response = await axios.get(url, { headers })
-    console.log(response.data)
     return response.data
   } catch (error) {
     console.error("Get Playlist By Country Error:", error)

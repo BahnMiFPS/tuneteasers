@@ -17,6 +17,7 @@ import { Stack } from "@mui/material"
 import CountDownComponent from "../components/WaitingLobby/CountDownComponent"
 
 import GenreChipsSwiper from "../components/Rows/GenreChipsSwiper"
+import { allowedCountries } from "../api/requests"
 
 function ConfigureRoom() {
   const { roomId } = useParams()
@@ -27,6 +28,7 @@ function ConfigureRoom() {
   const { state } = useLocation()
   const [isWaitingForQuestions, setIsWaitingForQuestions] = useState(false)
   const [country, setCountry] = useState("VN")
+  const [locale, setLocale] = useState("vi_VN")
   const [genreList, setGenreList] = useState([])
   const [currentGenre, setCurrentGenre] = useState("toplists")
 
@@ -35,7 +37,9 @@ function ConfigureRoom() {
   }
 
   const handleDropDownChange = (event) => {
-    setCountry(event.target.value)
+    const { code, locale } = event.target.value
+    setCountry(code)
+    setLocale(locale)
   }
   const handleStartCountdown = () => {
     setIsWaitingForQuestions(false)
@@ -108,24 +112,24 @@ function ConfigureRoom() {
           >
             <Grid item xs={12} md={2}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Country</InputLabel>
+                <InputLabel color="text" id="demo-simple-select-label">
+                  Country
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={country}
+                  value={country.code}
                   label="Country"
                   onChange={handleDropDownChange}
                   variant="outlined"
+                  color="warning"
+                  style={{ color: "white" }}
                 >
-                  <MenuItem value={"US"}>
-                    <Typography>United States</Typography>
-                  </MenuItem>
-                  <MenuItem value={"VN"}>
-                    <Typography>Viet Nam</Typography>
-                  </MenuItem>
-                  <MenuItem value={"KR"}>
-                    <Typography>Korea</Typography>
-                  </MenuItem>
+                  {allowedCountries.map((country) => (
+                    <MenuItem value={country}>
+                      <Typography>{country.name}</Typography>
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -136,6 +140,7 @@ function ConfigureRoom() {
                 currentGenre={currentGenre}
                 setGenreList={setGenreList}
                 country={country}
+                locale={locale}
               />
             </Grid>
           </Grid>
