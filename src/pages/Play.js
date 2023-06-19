@@ -1,121 +1,116 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
 import {
   Box,
   Button,
   Container,
   Grid,
   Hidden,
-  IconButton,
   LinearProgress,
   List,
-  ListItem,
   ListItemText,
-  Paper,
   Stack,
   Typography,
-  useMediaQuery,
-} from "@mui/material";
-import QuizQuestions from "../components/PlayLobby/QuizQuestions";
-import socket from "../app/socket";
-import { useNavigate, useParams } from "react-router-dom";
-import { DoorBack } from "@mui/icons-material";
-import LobbyLeaderboard from "../components/WaitingLobby/LobbyLeaderboard";
-import VolumeSlider from "../components/PlayLobby/VolumeSlider";
-import ChatBox from "../components/ChatBox/ChatBox";
-import theme from "../theme/theme";
-import LinearWithValueLabel from "../components/Genres/LinearWithValueLabel";
-import MyConfetti from "../components/PlayLobby/MyConfetti";
+} from "@mui/material"
+import QuizQuestions from "../components/PlayLobby/QuizQuestions"
+import socket from "../app/socket"
+import { useNavigate, useParams } from "react-router-dom"
+import { DoorBack } from "@mui/icons-material"
+import LobbyLeaderboard from "../components/WaitingLobby/LobbyLeaderboard"
+import VolumeSlider from "../components/PlayLobby/VolumeSlider"
+import ChatBox from "../components/ChatBox/ChatBox"
+import theme from "../theme/theme"
+import MyConfetti from "../components/PlayLobby/MyConfetti"
 
 function Play() {
-  const [question, setQuestion] = useState(null);
-  const [isGameEnded, setIsGameEnded] = useState(false);
-  const [leaderboard, setLeaderboard] = useState([]);
-  const { roomId } = useParams();
-  const navigate = useNavigate();
-  const [countDownTimer, setCountDownTimer] = useState(null);
-  const [delayCountdown, setDelayCountdown] = useState(null);
-  const [gameMode, setGameMode] = useState(null);
+  const [question, setQuestion] = useState(null)
+  const [isGameEnded, setIsGameEnded] = useState(false)
+  const [leaderboard, setLeaderboard] = useState([])
+  const { roomId } = useParams()
+  const navigate = useNavigate()
+  const [countDownTimer, setCountDownTimer] = useState(null)
+  const [delayCountdown, setDelayCountdown] = useState(null)
+  const [gameMode, setGameMode] = useState(null)
   const isOwner = () => {
-    const userInfo = window.localStorage.getItem("userInfo");
-    const parsedUserInfo = JSON.parse(userInfo);
+    const userInfo = window.localStorage.getItem("userInfo")
+    const parsedUserInfo = JSON.parse(userInfo)
 
     if (roomId == parsedUserInfo.roomId && parsedUserInfo.isOwner) {
-      return true;
+      return true
     }
-    return false;
-  };
+    return false
+  }
   useEffect(() => {
     const updateLeaderboard = (data) => {
-      setLeaderboard(data);
-    };
+      setLeaderboard(data)
+    }
     const newQuestion = (data) => {
-      setQuestion(data);
-      setDelayCountdown(null);
+      setQuestion(data)
+      setDelayCountdown(null)
 
       if (isOwner()) {
-        socket.emit("next_question", parseInt(roomId));
+        socket.emit("next_question", parseInt(roomId))
       }
-    };
+    }
 
     const gameEnded = () => {
-      setIsGameEnded(true);
-      setCountDownTimer(null);
-      setDelayCountdown(null);
-    };
+      setIsGameEnded(true)
+      setCountDownTimer(null)
+      setDelayCountdown(null)
+    }
     socket.on("question_init", (data) => {
-      setGameMode(data);
+      setGameMode(data)
 
       if (isOwner()) {
-        socket.emit("next_question", parseInt(roomId));
+        socket.emit("next_question", parseInt(roomId))
       }
-    });
+    })
     const handleCountDownToNextQuestion = (delayCountdown) => {
-      setDelayCountdown(delayCountdown);
-      setCountDownTimer(null);
-    };
-    socket.on("going_to_next_question", handleCountDownToNextQuestion);
+      setDelayCountdown(delayCountdown)
+      setCountDownTimer(null)
+    }
+    socket.on("going_to_next_question", handleCountDownToNextQuestion)
     socket.on("countdown_to_next_question", (time) => {
-      setCountDownTimer(time);
-    });
-    socket.emit("room_game_init", parseInt(roomId));
-    socket.on("new_question", newQuestion);
-    socket.on("leaderboard_updated", updateLeaderboard);
-    socket.on("correct_answer", updateLeaderboard);
-    socket.on("game_ended", gameEnded);
+      setCountDownTimer(time)
+    })
+    socket.emit("room_game_init", parseInt(roomId))
+    socket.on("new_question", newQuestion)
+    socket.on("leaderboard_updated", updateLeaderboard)
+    socket.on("correct_answer", updateLeaderboard)
+    socket.on("game_ended", gameEnded)
     // Clean up the event listeners when component unmounts
     return () => {
-      socket.off("going_to_next_question", handleCountDownToNextQuestion);
+      socket.off("going_to_next_question", handleCountDownToNextQuestion)
 
-      socket.off("room_game_init");
-      socket.off("new_question", newQuestion);
-      socket.off("leaderboard_updated", updateLeaderboard);
-      socket.off("correct_answer", updateLeaderboard);
-      socket.off("game_ended", gameEnded);
-      socket.off("next_question", parseInt(roomId));
-    };
-  }, [roomId]);
+      socket.off("room_game_init")
+      socket.off("new_question", newQuestion)
+      socket.off("leaderboard_updated", updateLeaderboard)
+      socket.off("correct_answer", updateLeaderboard)
+      socket.off("game_ended", gameEnded)
+      socket.off("next_question", parseInt(roomId))
+    }
+  }, [roomId])
 
   const handleQuit = (roomId) => {
-    socket.emit("leave_room", parseInt(roomId));
-    navigate("/", { replace: true });
-  };
-  let progressMultiplyValue;
-  let delayProgressMultiplyValue = 100 / 3;
+    socket.emit("leave_room", parseInt(roomId))
+    navigate("/", { replace: true })
+  }
+  let progressMultiplyValue
+  let delayProgressMultiplyValue = 100 / 3
   switch (gameMode) {
     case "Fast":
-      progressMultiplyValue = 33; // 20
-      break;
+      progressMultiplyValue = 33 // 20
+      break
     case "Slow":
-      progressMultiplyValue = 5; // 3
-      break;
+      progressMultiplyValue = 5 // 3
+      break
     default:
-      progressMultiplyValue = 20; // 5
-      break;
+      progressMultiplyValue = 20 // 5
+      break
   }
   return (
-    <Container maxWidth="md" style={{ height: "100vh" }}>
+    <Container maxWidth="md" style={{ height: "100vh", padding: "2rem" }}>
       <Stack
-        spacing={2}
+        spacing={4}
         direction="column"
         style={{
           display: "flex",
@@ -128,15 +123,18 @@ function Play() {
           direction="row"
           justifyContent="space-between"
           alignItems={"flex-end"}
-          mt={2}
           spacing={5}
         >
           <img src="/logo.svg" alt="Logo" style={{ maxWidth: "30px" }} />
           <Box sx={{ width: "100%" }}>
             {delayCountdown ? (
               <>
-                <Typography textAlign="center" color="white">
-                  Going to next question
+                <Typography
+                  variant="subtitle2"
+                  textAlign="center"
+                  color="white"
+                >
+                  NEXT QUESTION
                 </Typography>
                 <LinearProgress
                   variant="determinate"
@@ -158,16 +156,16 @@ function Play() {
             type="text"
             color="error"
             onClick={() => {
-              handleQuit(roomId);
+              handleQuit(roomId)
             }}
           >
             <Typography>LEAVE</Typography>
           </Button>
         </Stack>
 
-        <Stack>
+        <Stack spacing={3} justifyContent={"space-between"} flex={1}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} alignSelf={"flex-start"}>
               <LobbyLeaderboard leaderboard={leaderboard} />
             </Grid>
             <Hidden smDown>
@@ -185,7 +183,7 @@ function Play() {
             />
           )}
           {!isGameEnded && !question ? (
-            <Stack spacing={1} mt={3}>
+            <Stack spacing={1}>
               <Typography
                 variant="h4"
                 align="center"
@@ -249,7 +247,7 @@ function Play() {
                 color="info"
                 startIcon={<DoorBack />}
                 onClick={() => {
-                  handleQuit(roomId);
+                  handleQuit(roomId)
                 }}
               >
                 LEAVE
@@ -271,7 +269,7 @@ function Play() {
         </Stack>
       </Stack>
     </Container>
-  );
+  )
 }
 
-export default Play;
+export default Play

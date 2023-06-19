@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import {
-  Grid,
-  Box,
-  CircularProgress,
-  Typography,
-  Stack,
-  Snackbar,
-  Alert,
-} from "@mui/material"
+import { Grid, Box, CircularProgress, Snackbar, Alert } from "@mui/material"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Pagination, Grid as SwiperGrid } from "swiper"
 import "swiper/css"
@@ -60,7 +52,7 @@ function PlaylistsRow({
         navigation
         grid={{ rows: 3, fill: "row" }}
         breakpoints={{
-          0: { slidesPerView: 2, grid: { rows: 3, fill: "row" } },
+          0: { slidesPerView: 2, grid: { rows: 2, fill: "row" } },
           300: { slidesPerView: 2, grid: { rows: 3, fill: "row" } },
           600: { slidesPerView: 4, grid: { rows: 3, fill: "row" } },
           900: { slidesPerView: 5, grid: { rows: 3, fill: "row" } },

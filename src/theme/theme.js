@@ -1,6 +1,6 @@
-import { createTheme } from "@mui/material";
+import { createTheme, responsiveFontSizes } from "@mui/material"
 
-const theme = createTheme({
+let theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
@@ -28,8 +28,25 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: "Urbanist, sans-serif", // Use "Urbanist" font
-    fontSize: 16,
   },
-});
+})
+theme = responsiveFontSizes(theme, {
+  breakpoints: ["xs", "sm", "md", "lg", "xl"], // breakpoints to consider
+  disableAlign: false, // whether to align to Material Design's 4px line height grid
+  factor: 2, // determines the strength of resizing
+  variants: [
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "subtitle1",
+    "subtitle2",
+    "body2",
+    "caption",
+    "button",
+    "body1",
+  ], // typography variants to handle
+})
 
-export default theme;
+export default theme

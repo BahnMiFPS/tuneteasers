@@ -5,9 +5,9 @@ import CheckIcon from "@mui/icons-material/Check"
 import theme from "../../theme/theme"
 
 const cardStyles = {
+  zIndex: 10,
   width: "167px",
   backgroundColor: "none",
-  position: "relative",
 }
 
 const cardImageStyles = {
@@ -30,7 +30,17 @@ const checkIconStyles = {
 
 function PlaylistCard({ id, image, name, handleCardClick, chosenCard }) {
   return (
-    <Card style={cardStyles}>
+    <Card
+      style={cardStyles}
+      sx={{
+        boxShadow: 3,
+        transition: "0.15s",
+        "&:hover": {
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.5)",
+          transform: "translateY(-2px)",
+        },
+      }}
+    >
       <CardActionArea onClick={() => handleCardClick(id)}>
         <CardMedia
           component="img"

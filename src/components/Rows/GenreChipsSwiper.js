@@ -42,7 +42,7 @@ function GenreChipsSwiper({
       navigation
       grid={{ rows: 2, fill: "row" }}
       breakpoints={{
-        0: { slidesPerView: 1, grid: { rows: 2, fill: "row" } },
+        0: { slidesPerView: 1, grid: { rows: 1, fill: "row" } },
         300: { slidesPerView: 3, grid: { rows: 2, fill: "row" } },
         600: { slidesPerView: 4, grid: { rows: 2, fill: "row" } },
         900: { slidesPerView: 5, grid: { rows: 2, fill: "row" } },
@@ -50,6 +50,7 @@ function GenreChipsSwiper({
       }}
       modules={[Pagination, Navigation, SwiperGrid]}
       className="mySwiper"
+      id="genreSwiper"
     >
       {genreList.items
         ?.filter((genre) => genre.id !== null)

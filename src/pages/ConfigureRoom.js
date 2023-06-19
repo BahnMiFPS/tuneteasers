@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   FormControl,
   Grid,
@@ -90,27 +91,28 @@ function ConfigureRoom() {
   }, [roomId])
 
   return (
-    <Container style={{ height: "100vh" }}>
+    <Container style={{ height: "100vh", padding: "2rem" }}>
       <Stack
         direction="column"
+        spacing={2}
         style={{
           height: "100%",
           flex: 1,
           justifyContent: "space-between",
         }}
       >
-        <Box mt={3}>
-          <Typography variant="h5" color="white" textAlign="center" mb={2}>
-            Waiting for Host to pick a playlist...
-          </Typography>
+        <Stack spacing={2}>
+          <Stack alignItems={"center"} justifyContent={"center"}>
+            <Typography variant="h4" color="white">
+              Waiting for Host to pick a playlist...
+            </Typography>
+          </Stack>
           <Grid
             container
-            width={"100%"}
-            alignItems={"center"}
-            spacing={2}
-            style={{}}
+            alignItems={"baseline"}
+            justifyContent={"space-between"}
           >
-            <Grid item xs={12} md={2}>
+            <Grid item xs={12} sm={2}>
               <FormControl fullWidth>
                 <InputLabel color="text" id="demo-simple-select-label">
                   Country
@@ -127,13 +129,13 @@ function ConfigureRoom() {
                 >
                   {allowedCountries.map((country) => (
                     <MenuItem value={country}>
-                      <Typography>{country.name}</Typography>
+                      <Typography variant="body1">{country.name}</Typography>
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={10}>
+            <Grid item xs={12} sm={9} flexGrow={1}>
               <GenreChipsSwiper
                 genreList={genreList}
                 setCurrentGenre={setCurrentGenre}
@@ -144,7 +146,7 @@ function ConfigureRoom() {
               />
             </Grid>
           </Grid>
-        </Box>
+        </Stack>
         <Stack flex={1} justifyContent={"center"}>
           <PlaylistsRow
             currentGenre={currentGenre}
@@ -153,7 +155,7 @@ function ConfigureRoom() {
             chosenCard={chosenCard}
           />
         </Stack>
-        <Box alignSelf={"center"} mb={3}>
+        <Box alignSelf={"center"}>
           <Button
             onClick={handleStartGame}
             type="submit"

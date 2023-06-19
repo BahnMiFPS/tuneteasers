@@ -1,22 +1,22 @@
-import React, { useEffect } from "react";
-import { Container, Grid, Stack, Typography } from "@mui/material";
-import { Outlet, useNavigate } from "react-router-dom";
-import socket from "../app/socket";
-import SignInForm from "../components/Forms/SignInForm";
+import React, { useEffect } from "react"
+import { Container, Grid, Stack, Typography } from "@mui/material"
+import { Outlet, useNavigate } from "react-router-dom"
+import socket from "../app/socket"
+import SignInForm from "../components/Forms/SignInForm"
 
 function HomePage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   useEffect(() => {
     const handleCreateRoomInstead = () => {
       // setOpenSnackbar(true);
-      navigate(`/`, { replace: true });
-    };
-    socket.on("no_room_found", handleCreateRoomInstead);
+      navigate(`/`, { replace: true })
+    }
+    socket.on("no_room_found", handleCreateRoomInstead)
 
     return () => {
-      socket.off("no_room_found", handleCreateRoomInstead);
-    };
-  }, []);
+      socket.off("no_room_found", handleCreateRoomInstead)
+    }
+  }, [])
   return (
     <Container fixed maxWidth="sm">
       <Stack
@@ -33,7 +33,7 @@ function HomePage() {
         <Outlet />
       </Stack>
     </Container>
-  );
+  )
 }
 
-export default HomePage;
+export default HomePage
