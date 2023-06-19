@@ -2,9 +2,16 @@
   color: white;
   letter-spacing: 8px;
 }
-
 .mySwiper {
-  margin-bottom: 20px;
+  --swiper-container-sides-offset: 100px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  --swiper-navigation-size: 22px;
+  --swiper-navigation-top-offset: 50%;
+  --swiper-navigation-sides-offset: 10px;
+  --swiper-navigation-color: #38e9bb;
 }
 
 .swiper-slide {

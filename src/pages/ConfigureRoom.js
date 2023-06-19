@@ -1,72 +1,89 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button, Container, Typography } from "@mui/material";
-import { requests } from "../api/requests";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import PlaylistsRow from "../components/Rows/PlaylistsRow";
-import socket from "../app/socket";
-import { Stack } from "@mui/material";
-import CountDownComponent from "../components/WaitingLobby/CountDownComponent";
+import React, { useEffect, useState } from "react"
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
+import PlaylistsRow from "../components/Rows/PlaylistsRow"
+import socket from "../app/socket"
+import { Stack } from "@mui/material"
+import CountDownComponent from "../components/WaitingLobby/CountDownComponent"
+
+import GenreChipsSwiper from "../components/Rows/GenreChipsSwiper"
 
 function ConfigureRoom() {
-  const { roomId } = useParams();
-  const navigate = useNavigate();
-  const [chosenCard, setChosenCard] = useState("");
-  const [startGameCountdown, setStartGameCountdown] = useState(false);
-  const [countdown, setCountdown] = useState(3);
-  const { state } = useLocation();
-  const [isWaitingForQuestions, setIsWaitingForQuestions] = useState(false);
+  const { roomId } = useParams()
+  const navigate = useNavigate()
+  const [chosenCard, setChosenCard] = useState("")
+  const [startGameCountdown, setStartGameCountdown] = useState(false)
+  const [countdown, setCountdown] = useState(3)
+  const { state } = useLocation()
+  const [isWaitingForQuestions, setIsWaitingForQuestions] = useState(false)
+  const [country, setCountry] = useState("VN")
+  const [genreList, setGenreList] = useState([])
+  const [currentGenre, setCurrentGenre] = useState("toplists")
 
   const handleCardClick = (id) => {
-    setChosenCard(id);
-  };
+    setChosenCard(id)
+  }
 
+  const handleDropDownChange = (event) => {
+    setCountry(event.target.value)
+  }
   const handleStartCountdown = () => {
-    setIsWaitingForQuestions(false);
-    setStartGameCountdown(true);
-    let countdownValue = 3;
-    setCountdown(countdownValue);
+    setIsWaitingForQuestions(false)
+    setStartGameCountdown(true)
+    let countdownValue = 3
+    setCountdown(countdownValue)
 
     const countdownInterval = setInterval(() => {
-      countdownValue--;
-      setCountdown(countdownValue);
+      countdownValue--
+      setCountdown(countdownValue)
 
       if (countdownValue === 0) {
-        clearInterval(countdownInterval);
-        setStartGameCountdown(false);
+        clearInterval(countdownInterval)
+        setStartGameCountdown(false)
         socket.emit("start_game", {
           roomId: parseInt(roomId),
-        });
+        })
       }
-    }, 1000);
-  };
+    }, 1000)
+  }
 
   const handleStartGame = () => {
     socket.emit("picked_music_starting_game", {
       roomId: parseInt(roomId),
       playlistId: chosenCard,
-    });
-  };
+    })
+  }
 
   const handleGeneratingQuestions = () => {
-    setIsWaitingForQuestions(true);
-  };
+    setIsWaitingForQuestions(true)
+  }
 
   useEffect(() => {
     const handleNavigateToPlay = (data) => {
       navigate(`/play/${data}`, {
         replace: true,
-      });
-    };
+      })
+    }
 
-    socket.on("countdown_start", handleStartCountdown);
-    socket.on("game_started", handleNavigateToPlay);
-    socket.on("generating_questions", handleGeneratingQuestions);
+    socket.on("countdown_start", handleStartCountdown)
+    socket.on("game_started", handleNavigateToPlay)
+    socket.on("generating_questions", handleGeneratingQuestions)
 
     return () => {
-      socket.off("game_started", handleNavigateToPlay);
-      socket.off("generating_questions", handleGeneratingQuestions);
-    };
-  }, [roomId]);
+      socket.off("game_started", handleNavigateToPlay)
+      socket.off("generating_questions", handleGeneratingQuestions)
+    }
+  }, [roomId])
 
   return (
     <Container style={{ height: "100vh" }}>
@@ -78,19 +95,58 @@ function ConfigureRoom() {
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="h5" color="white" textAlign="center" mt={3}>
-          Waiting for Host to pick a playlist...
-        </Typography>
-        <Stack>
-          {requests.map((category, index) => (
-            <PlaylistsRow
-              title={category.name}
-              url={category.url}
-              key={index}
-              handleCardClick={handleCardClick}
-              chosenCard={chosenCard}
-            />
-          ))}
+        <Box mt={3}>
+          <Typography variant="h5" color="white" textAlign="center" mb={2}>
+            Waiting for Host to pick a playlist...
+          </Typography>
+          <Grid
+            container
+            width={"100%"}
+            alignItems={"center"}
+            spacing={2}
+            style={{}}
+          >
+            <Grid item xs={12} md={2}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Country</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={country}
+                  label="Country"
+                  onChange={handleDropDownChange}
+                  variant="outlined"
+                >
+                  <MenuItem value={"US"}>
+                    <Typography>United States</Typography>
+                  </MenuItem>
+                  <MenuItem value={"VN"}>
+                    <Typography>Viet Nam</Typography>
+                  </MenuItem>
+                  <MenuItem value={"KR"}>
+                    <Typography>Korea</Typography>
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={10}>
+              <GenreChipsSwiper
+                genreList={genreList}
+                setCurrentGenre={setCurrentGenre}
+                currentGenre={currentGenre}
+                setGenreList={setGenreList}
+                country={country}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+        <Stack flex={1} justifyContent={"center"}>
+          <PlaylistsRow
+            currentGenre={currentGenre}
+            country={country}
+            handleCardClick={handleCardClick}
+            chosenCard={chosenCard}
+          />
         </Stack>
         <Box alignSelf={"center"} mb={3}>
           <Button
@@ -111,7 +167,7 @@ function ConfigureRoom() {
         startGameCountdown && <CountDownComponent countdown={countdown} />
       )}
     </Container>
-  );
+  )
 }
 
-export default ConfigureRoom;
+export default ConfigureRoom

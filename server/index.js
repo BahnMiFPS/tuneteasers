@@ -3,7 +3,11 @@ const http = require("http")
 const { Server } = require("socket.io")
 const cors = require("cors")
 const { getQuestion, generateRoomQuestions } = require("./utils/getQuestion")
-const { getPlayListByCountry } = require("./utils/fetchPlaylist")
+const {
+  getPlayListByCategories,
+  getListOfGenres,
+  getCategoriesByCountry,
+} = require("./utils/fetchPlaylist")
 const { getAccessToken } = require("./utils/spotify")
 const app = express()
 const { faker } = require("@faker-js/faker")
@@ -40,16 +44,31 @@ app.get("/", (req, res) => {
   res.send("Hello, this is Tune Teasers!")
 })
 
-app.get("/api/playlists", async (req, res) => {
-  const { country, locale } = req.query
+app.get("/api/categories", async (req, res) => {
+  const { country } = req.query
   try {
-    const playlists = await getPlayListByCountry(country, locale, accessToken)
+    const categories = await getCategoriesByCountry(country, accessToken)
+    console.log("🚀 ~ file: index.js:51 ~ app.get ~ categories:", categories)
+    res.json({ data: categories })
+  } catch (error) {
+    console.error("Error fetching categories:", error)
+    res.status(500).json({ error: "Failed to fetch categories" })
+  }
+})
+
+app.get("/api/playlists", async (req, res) => {
+  const { id, country } = req.query
+  try {
+    const playlists = await getPlayListByCategories(id, country, accessToken)
+    console.log(playlists.playlists.items)
     const playlistData = playlists.playlists.items.map((playlist) => ({
       id: playlist.id,
       name: playlist.name,
       description: playlist.description,
       image: playlist.images[0].url,
     }))
+
+    // .filter((playlist) => playlist?.owner?.display_name === "Spotify")
     res.json({ data: playlistData })
   } catch (error) {
     console.error("Error fetching playlists:", error)

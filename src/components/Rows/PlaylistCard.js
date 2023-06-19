@@ -1,18 +1,18 @@
-import React from "react";
-import "./style.css";
-import { Card, CardActionArea, CardMedia, Box } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
-import theme from "../../theme/theme";
+import React from "react"
+import "./style.css"
+import { Card, CardActionArea, CardMedia, Box } from "@mui/material"
+import CheckIcon from "@mui/icons-material/Check"
+import theme from "../../theme/theme"
 
 const cardStyles = {
   width: "167px",
   backgroundColor: "none",
   position: "relative",
-};
+}
 
 const cardImageStyles = {
   position: "relative",
-};
+}
 
 const checkIconStyles = {
   position: "absolute",
@@ -26,7 +26,7 @@ const checkIconStyles = {
   alignItems: "center",
   justifyContent: "center",
   zIndex: 1,
-};
+}
 
 function PlaylistCard({ id, image, name, handleCardClick, chosenCard }) {
   return (
@@ -37,7 +37,6 @@ function PlaylistCard({ id, image, name, handleCardClick, chosenCard }) {
           image={image}
           alt={name}
           style={cardImageStyles}
-          loading="lazy"
         />
         {chosenCard === id && (
           <Box style={checkIconStyles}>
@@ -46,7 +45,7 @@ function PlaylistCard({ id, image, name, handleCardClick, chosenCard }) {
         )}
       </CardActionArea>
     </Card>
-  );
+  )
 }
 
-export default PlaylistCard;
+export default PlaylistCard
