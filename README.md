@@ -86,9 +86,6 @@ The project aims to deliver a captivating experience, offering a wide range of m
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
 Before you can run the Tune Teasers application, make sure you have the following software installed on your machine:
