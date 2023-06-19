@@ -120,7 +120,7 @@ Before you can run the Tune Teasers application, make sure you have the followin
    ```js
    REACT_APP_DEPLOYMENT_URL = ""
    REACT_APP_LOCAL_URL = "http://localhost:3001"
-   NODE_ENV = ""
+   NODE_ENV = "development"
    ```
 3. Run the server on your local:
    ```sh
@@ -143,7 +143,9 @@ Before you can run the Tune Teasers application, make sure you have the followin
    ```js
    SPOTIFY_ID = "YOUR SPOTIFY CLIENT ID"
    SPOTIFY_SECRET = "YOUR SPOTIFY CLIENT SECRET"
-   NODE_ENV = ""
+   DEPLOYMENT_URL = ""
+   LOCAL_URL = "http://localhost:3000"
+   NODE_ENV = "development"
    ```
 4. Run the server on your local:
 

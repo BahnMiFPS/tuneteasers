@@ -18,8 +18,8 @@ const server = http.createServer(app)
 const port = process.env.PORT || 3001
 const clientAppOrigin =
   process.env.NODE_ENV === "production"
-    ? "https://tune-teasers.vercel.app"
-    : "http://localhost:3000"
+    ? process.env.DEPLOYMENT_URL
+    : process.env.LOCAL_URL
 const io = new Server(server, {
   cors: {
     origin: clientAppOrigin,
