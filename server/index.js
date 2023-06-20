@@ -6,15 +6,12 @@ const cors = require("cors")
 const { getQuestion, generateRoomQuestions } = require("./utils/getQuestion")
 const {
   getPlayListByCategories,
-  getListOfGenres,
   getCategoriesByCountry,
-} = require("./utils/fetchPlaylist")
-const { getAccessToken } = require("./utils/spotify")
+} = require("./utils/spotify")
 const app = express()
 const { faker } = require("@faker-js/faker")
 
 app.use(cors())
-
 const server = http.createServer(app)
 const port = process.env.PORT || 3001
 const clientAppOrigin =
@@ -28,19 +25,6 @@ const io = new Server(server, {
   },
 })
 
-// Access token variable to store the token
-let accessToken = null
-
-// Get access token during server startup or when needed for the first time
-;(async () => {
-  try {
-    accessToken = await getAccessToken()
-  } catch (error) {
-    console.error("Failed to obtain access token:", error)
-    process.exit(1)
-  }
-})()
-
 app.get("/", (req, res) => {
   res.send("Hello, this is Tune Teasers!")
 })
@@ -48,11 +32,7 @@ app.get("/", (req, res) => {
 app.get("/api/categories", async (req, res) => {
   const { country, locale } = req.query
   try {
-    const categories = await getCategoriesByCountry(
-      country,
-      locale,
-      accessToken
-    )
+    const categories = await getCategoriesByCountry(country, locale)
 
     res.json({ data: categories })
   } catch (error) {
@@ -64,7 +44,7 @@ app.get("/api/categories", async (req, res) => {
 app.get("/api/playlists", async (req, res) => {
   const { id, country } = req.query
   try {
-    const playlists = await getPlayListByCategories(id, country, accessToken)
+    const playlists = await getPlayListByCategories(id, country)
     const playlistData = playlists.playlists.items
       .filter((playlist) => playlist && playlist.id != null)
       .map((playlist) => ({
@@ -76,7 +56,7 @@ app.get("/api/playlists", async (req, res) => {
     // .filter((playlist) => playlist?.owner?.display_name === "Spotify")
     res.json({ data: playlistData })
   } catch (error) {
-    console.error("Error fetching playlists:", error)
+    // console.error("Error fetching playlists:", error)
     res.status(500).json({ error: "Failed to fetch playlists" })
   }
 })
@@ -210,9 +190,9 @@ io.on("connection", (socket) => {
         // Proceed with answering questions or emitting events to users
         io.in(roomId).emit("countdown_start", roomId)
       } catch (error) {
-        console.error(
-          `Questions not found for index: ${roomId}. Error: ${error}`
-        )
+        // console.error(
+        //   `Questions not found for index: ${roomId}. Error: ${error}`
+        // )
         socket.emit("questions_error", error.message)
       }
     }

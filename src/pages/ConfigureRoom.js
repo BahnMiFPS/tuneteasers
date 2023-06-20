@@ -18,8 +18,16 @@ import { Stack } from "@mui/material"
 import CountDownComponent from "../components/WaitingLobby/CountDownComponent"
 
 import GenreChipsSwiper from "../components/Rows/GenreChipsSwiper"
-import { allowedCountries } from "../api/requests"
 
+const allowedCountries = [
+  { name: "Việt Nam", code: "VN", locale: "vi_VN" },
+  { name: "United States", code: "US", locale: "en_US" },
+  { name: "Korea", code: "KR", locale: "ko_KR" },
+  { name: "Japan", code: "JP", locale: "ja_JP" },
+  { name: "United Kingdom", code: "GB", locale: "en_GB" },
+  { name: "Hong Kong", code: "HK", locale: "zh_HK" },
+  { name: "Australia", code: "AU", locale: "en_AU" },
+]
 function ConfigureRoom() {
   const { roomId } = useParams()
   const navigate = useNavigate()
@@ -28,19 +36,17 @@ function ConfigureRoom() {
   const [countdown, setCountdown] = useState(3)
   const { state } = useLocation()
   const [isWaitingForQuestions, setIsWaitingForQuestions] = useState(false)
-  const [country, setCountry] = useState("VN")
-  const [locale, setLocale] = useState("vi_VN")
+  const [country, setCountry] = useState(allowedCountries[0])
   const [genreList, setGenreList] = useState([])
-  const [currentGenre, setCurrentGenre] = useState("toplists")
-
+  const [currentGenre, setCurrentGenre] = useState()
   const handleCardClick = (id) => {
     setChosenCard(id)
   }
 
   const handleDropDownChange = (event) => {
-    const { code, locale } = event.target.value
-    setCountry(code)
-    setLocale(locale)
+    const selectedCountry = event.target.value
+    setCountry(selectedCountry)
+    setCurrentGenre(genreList.items[0].id)
   }
   const handleStartCountdown = () => {
     setIsWaitingForQuestions(false)
@@ -120,7 +126,7 @@ function ConfigureRoom() {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={country.code}
+                  value={country}
                   label="Country"
                   onChange={handleDropDownChange}
                   variant="outlined"
@@ -128,7 +134,7 @@ function ConfigureRoom() {
                   style={{ color: "white" }}
                 >
                   {allowedCountries.map((country) => (
-                    <MenuItem value={country}>
+                    <MenuItem value={country} key={country.code}>
                       <Typography variant="body1">{country.name}</Typography>
                     </MenuItem>
                   ))}
@@ -142,7 +148,6 @@ function ConfigureRoom() {
                 currentGenre={currentGenre}
                 setGenreList={setGenreList}
                 country={country}
-                locale={locale}
               />
             </Grid>
           </Grid>

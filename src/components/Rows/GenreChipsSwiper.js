@@ -16,11 +16,10 @@ function GenreChipsSwiper({
   currentGenre,
   setGenreList,
   country,
-  locale,
 }) {
   const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
-    const getCategoriesURL = `${SERVER_URL}/api/categories?country=${country}&locale=${locale}`
+    const getCategoriesURL = `${SERVER_URL}/api/categories?country=${country.code}&locale=${country.locale}`
 
     const getCategoriesByCountry = async () => {
       try {
@@ -28,7 +27,7 @@ function GenreChipsSwiper({
         setGenreList(response.data.data.categories)
         setIsLoading(false)
       } catch (error) {
-        console.error(error)
+        // console.error(error)
         setIsLoading(false)
       }
     }

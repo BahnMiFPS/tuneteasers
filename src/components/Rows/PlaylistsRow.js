@@ -11,19 +11,13 @@ import "swiper/css/grid"
 import PlaylistCard from "./PlaylistCard"
 import { SERVER_URL } from "../../api/requests"
 
-function PlaylistsRow({
-  country,
-  currentGenre,
-  handleCardClick,
-  chosenCard,
-  locale,
-}) {
+function PlaylistsRow({ country, currentGenre, handleCardClick, chosenCard }) {
   const [playlists, setPlaylists] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [openSnackbar, setOpenSnackbar] = useState(false)
 
   const [error, setError] = useState(null)
-  const url = `${SERVER_URL}/api/playlists?id=${currentGenre}&country=${country}`
+  const url = `${SERVER_URL}/api/playlists?id=${currentGenre}&country=${country.code}`
   useEffect(() => {
     async function getTrendingPlaylists() {
       try {
@@ -32,7 +26,7 @@ function PlaylistsRow({
         setIsLoading(false)
         setError(null)
       } catch (error) {
-        console.error(error)
+        // console.error(error)
         setIsLoading(false)
         setOpenSnackbar(true)
         setError("Failed to fetch playlists.")
