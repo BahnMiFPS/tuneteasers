@@ -19,16 +19,18 @@ function PlaylistsRow({ country, currentGenre, handleCardClick, chosenCard }) {
   const [error, setError] = useState(null)
   useEffect(() => {
     async function getTrendingPlaylists() {
-      const url = `${SERVER_URL}/api/playlists?id=${currentGenre}&country=${country.code}`
-      try {
-        const response = await axios.get(url)
-        setPlaylists(response.data.data)
-        setIsLoading(false)
-        setError(null)
-      } catch (error) {
-        setIsLoading(false)
-        setOpenSnackbar(true)
-        setError("Failed to fetch playlists.")
+      if (currentGenre) {
+        const url = `${SERVER_URL}/api/playlists?id=${currentGenre}&country=${country.code}`
+        try {
+          const response = await axios.get(url)
+          setPlaylists(response.data.data)
+          setIsLoading(false)
+          setError(null)
+        } catch (error) {
+          setIsLoading(false)
+          setOpenSnackbar(true)
+          setError("Failed to fetch playlists.")
+        }
       }
     }
 
