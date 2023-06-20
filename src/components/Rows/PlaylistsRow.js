@@ -17,25 +17,25 @@ function PlaylistsRow({ country, currentGenre, handleCardClick, chosenCard }) {
   const [openSnackbar, setOpenSnackbar] = useState(false)
 
   const [error, setError] = useState(null)
-  const url = `${SERVER_URL}/api/playlists?id=${currentGenre}&country=${country.code}`
   useEffect(() => {
     async function getTrendingPlaylists() {
-      try {
-        if (currentGenre) {
+      if (currentGenre) {
+        const url = `${SERVER_URL}/api/playlists?id=${currentGenre}&country=${country.code}`
+        try {
           const response = await axios.get(url)
           setPlaylists(response.data.data)
           setIsLoading(false)
           setError(null)
+        } catch (error) {
+          setIsLoading(false)
+          setOpenSnackbar(true)
+          setError("Failed to fetch playlists.")
         }
-      } catch (error) {
-        // console.error(error)
-        setIsLoading(false)
-        setOpenSnackbar(true)
-        setError("Failed to fetch playlists.")
       }
     }
+
     getTrendingPlaylists()
-  }, [url])
+  }, [country.code, currentGenre])
 
   return (
     <Grid item xs={12}>
