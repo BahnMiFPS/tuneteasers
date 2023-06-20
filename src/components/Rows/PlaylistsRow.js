@@ -21,10 +21,12 @@ function PlaylistsRow({ country, currentGenre, handleCardClick, chosenCard }) {
   useEffect(() => {
     async function getTrendingPlaylists() {
       try {
-        const response = await axios.get(url)
-        setPlaylists(response.data.data)
-        setIsLoading(false)
-        setError(null)
+        if (currentGenre) {
+          const response = await axios.get(url)
+          setPlaylists(response.data.data)
+          setIsLoading(false)
+          setError(null)
+        }
       } catch (error) {
         // console.error(error)
         setIsLoading(false)
