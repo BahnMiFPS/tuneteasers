@@ -46,7 +46,6 @@ function ConfigureRoom() {
   const handleDropDownChange = (event) => {
     const selectedCountry = event.target.value
     setCountry(selectedCountry)
-    setCurrentGenre(genreList.items[0].id)
   }
   const handleStartCountdown = () => {
     setIsWaitingForQuestions(false)

@@ -24,7 +24,10 @@ function GenreChipsSwiper({
     const getCategoriesByCountry = async () => {
       try {
         const response = await axios.get(getCategoriesURL)
-        setGenreList(response.data.data.categories)
+        const genreListData = response.data.data.categories
+        setGenreList(genreListData)
+        setCurrentGenre(genreListData.items[0].id)
+
         setIsLoading(false)
       } catch (error) {
         // console.error(error)
