@@ -56,7 +56,7 @@ app.get("/api/playlists", async (req, res) => {
     // .filter((playlist) => playlist?.owner?.display_name === "Spotify")
     res.json({ data: playlistData })
   } catch (error) {
-    // console.error("Error fetching playlists:", error)
+    console.error("Error fetching playlists:", error)
     res.status(500).json({ error: "Failed to fetch playlists" })
   }
 })
@@ -190,9 +190,9 @@ io.on("connection", (socket) => {
         // Proceed with answering questions or emitting events to users
         io.in(roomId).emit("countdown_start", roomId)
       } catch (error) {
-        // console.error(
-        //   `Questions not found for index: ${roomId}. Error: ${error}`
-        // )
+        console.error(
+          `Questions not found for index: ${roomId}. Error: ${error}`
+        )
         socket.emit("questions_error", error.message)
       }
     }

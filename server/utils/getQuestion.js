@@ -83,7 +83,7 @@ async function generateRoomQuestions(playlistId, songNumbers) {
 
     return roomQuestionsCollection
   } catch (error) {
-    // console.error(`Error generating room questions: ${error}`);
+    console.error(`Error generating room questions: ${error}`)
     throw error
   }
 }
