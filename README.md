@@ -18,6 +18,7 @@
 
   <p align="center">
     A multiplayer music quiz game built with React, Express, Socket.IO, and Spotify API integration.
+    (This project has stopped working since Spotify updated their new API policies :()
     <br />
     <br />
     <br />
